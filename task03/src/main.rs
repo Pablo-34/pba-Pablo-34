@@ -53,7 +53,7 @@ fn cell_index_from_position(pos: &Vec2f, box_size: f32, num_div: usize) -> usize
 
 /// data structure for acceleration
 struct Acceleration {
-    box_size: f32, // size of the box
+    box_size: f32,  // size of the box
     num_div: usize, // number of division of each side of the box
 
     // `idx2ipic` and `cell2idx` are jagged array data structure,
@@ -61,7 +61,7 @@ struct Acceleration {
     cell2idx: Vec<usize>,          // index of jagged array
     idx2ipic: Vec<(usize, usize)>, // data of jagged array
 
-    cell2cg: Vec<Vec2f>,           // the center of gravity of each grid
+    cell2cg: Vec<Vec2f>, // the center of gravity of each grid
 }
 
 impl Acceleration {
@@ -74,7 +74,7 @@ impl Acceleration {
             self.idx2ipic.push((i_particle, i_grid));
         }
         self.idx2ipic.sort_by(|&a, &b| a.1.cmp(&b.1)); // sort by the cell index
-        // make jagged array structure
+                                                       // make jagged array structure
         self.cell2idx.resize(num_cell + 1, 0);
         self.cell2idx.fill(0);
         for &(_i_particle, i_cell) in &self.idx2ipic {
@@ -138,7 +138,9 @@ fn set_force_accelerated(particles: &mut [Particle], acc: &Acceleration) {
                 // write the code to approximate the force from particles in this cell.
                 let cg = acc.cell2cg[j_cell]; // hint: center of the gravity in this cell
                 let num_particle_in_cell = acc.cell2idx[j_cell + 1] - acc.cell2idx[j_cell]; // hint number of the particle in this cell
-                // particles[i_particle].force +=
+                particles[i_particle].force +=
+                    gravitational_force(&(cg - particles[i_particle].pos))
+                        .scale(num_particle_in_cell as f32);
             }
         }
     }
@@ -158,7 +160,10 @@ fn main() -> anyhow::Result<()> {
     use clap::Parser;
     let args = Args::parse();
     let num_div = 32;
-    println!("Accelerate: {}, Number of Particle: {}", args.accelerate, args.num_particle);
+    println!(
+        "Accelerate: {}, Number of Particle: {}",
+        args.accelerate, args.num_particle
+    );
     let box_size = 1.5f32;
     let mut acc = Acceleration {
         box_size,
