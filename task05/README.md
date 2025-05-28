@@ -51,7 +51,7 @@ Write the number below.
 
 | Dirichlet's energy in the initial state at resolution=256 |
 |-----------------------------------------------------------|
-| ???                                                       |
+| 21052.887                                                 |
 
 
 ## Problem 1
@@ -69,7 +69,7 @@ Write the Dirichlet energy after the 1000 iteration output by the program.
 
 | Dirichlet's energy in the final state at resolution=256 |
 |---------------------------------------------------------|
-| ???                                                     |
+| 4.9265003                                               |
 
 
 ## Problem 2

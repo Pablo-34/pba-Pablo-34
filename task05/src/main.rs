@@ -10,8 +10,16 @@ pub fn pixel_north_west_to_xy(xy: &[f32; 2], img_resolution: usize) -> Option<us
 
     // ------------------
     // implement some code below.
+    if x < 0.0 || y < 0.0 || x >= (img_resolution - 1) as f32 || y >= (img_resolution - 1) as f32 {
+        return None;
+    }
 
-    None // comment out
+    let i = x.floor() as usize; // column index
+    let j = ((img_resolution - 1) as f32 - y).floor() as usize; // row index
+
+    let index = j * img_resolution + i;
+
+    Some(index)
 
     // no edit from here
     // -----------------
@@ -62,9 +70,17 @@ pub fn gradient(xy: &[f32; 2], img_resolution: usize, pix2val: &[f32]) -> [f32; 
     let val_se = pix2val[i_pix_se];
     // ---------------------
     // write some code below to compute gradient
+    // First, interpolate values along the edges
+    let val_north = val_nw * (1.0 - rx) + val_ne * rx; // top edge
+    let val_south = val_sw * (1.0 - rx) + val_se * rx; // bottom edge
+    let val_west = val_sw * (1.0 - ry) + val_nw * ry; // left edge
+    let val_east = val_se * (1.0 - ry) + val_ne * ry; // right edge
 
-    [0f32, 0f32] // comment out
+    // Compute gradient components
+    let grad_x = (val_east - val_west) * img_resolution as f32;
+    let grad_y = (val_north - val_south) * img_resolution as f32;
 
+    [grad_x, grad_y]
     // no edit from here
     // -----------------
 }
@@ -109,7 +125,7 @@ fn solve_laplace_gauss_seidel_on_grid(
             // ------------------------
             // write some code below
 
-            // pix2val[i_pix_center] =  // hint
+            pix2val[i_pix_center] = (val_north + val_south + val_west + val_east) / 4.0;
 
             // no edit from here
             // -------------------------------
@@ -213,8 +229,8 @@ fn main() -> anyhow::Result<()> {
     for i_iteration in 0..1000 {
         if i_iteration % 10 == 0 {
             canvas.clear(0);
-            for i_pix in 0..pix2val.len() {
-                canvas.data[i_pix] = (pix2val[i_pix] * 254.0) as u8;
+            for (i_pix, &val) in pix2val.iter().enumerate() {
+                canvas.data[i_pix] = (val * 254.0) as u8;
             }
             canvas.write();
         }
@@ -242,8 +258,8 @@ fn main() -> anyhow::Result<()> {
             point.y -= grad[1] * 0.001;
         }
         canvas.clear(0);
-        for i_pix in 0..pix2val.len() {
-            canvas.data[i_pix] = (pix2val[i_pix] * 254.0) as u8;
+        for (i_pix, &val) in pix2val.iter().enumerate() {
+            canvas.data[i_pix] = (val * 254.0) as u8;
         }
         for xy in &point2xy {
             del_canvas::rasterize::xy::paint_nxn_pixels(
