@@ -89,7 +89,7 @@ Write down the converged minimum value of the energy by updating the text below.
 
 | minimum energy of the system |
 |------------------------------|
-| ???                          |
+| -101.123                     |
 
 
 ## After Doing the Assignment
