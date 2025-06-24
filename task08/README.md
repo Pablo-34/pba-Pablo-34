@@ -96,7 +96,7 @@ Write down the energy value at the 300th frame shown in the Debug output in the 
 
 | energy at 300th frame | lambda at 300th frame |
 |-----------------------|-----------------------|
-| ???                   | ???                   |
+| 0.008568874           | -0.1614645            |
 
 
 ## Problem 2: Blender rendering
