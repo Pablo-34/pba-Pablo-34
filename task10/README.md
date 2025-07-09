@@ -100,11 +100,11 @@ Assume that the T-shaped object is solid object with mass density `1.0f`.　
 Here we compute the inertia tensor in the reference configuration. 
 Write the inertia tensor below.
 
-|   | 0 | 1 | 2 |
-|---|---|---|---|
-| 0 | ? | ? | ? |
-| 1 | ? | ? | ? |
-| 2 | ? | ? | ? |
+|   | 0          | 1              | 2              |
+|---|------------|----------------|----------------|
+| 0 | 26.3556f   | 1.192093E-07f  | 0.2202091f     |
+| 1 | 0f         | 160.3678f      | -3.613532E-07f |
+| 2 | 0.2202091f | -3.613532E-07f | 170.7158f      |
 
 Note that the inertia tensor is symmetric.   
 
@@ -115,7 +115,7 @@ Write down the energy and angular momentum value at the 300th frame shown in the
 
 | energy at 300th frame | angular momentum at 300th frame |
 |-----------------------|---------------------------------|
-| ???                   | ???                             |
+| 84.85862              | (-0.27, 164.94, 3.53)           |
 
 Note that the both energy and angular momentum does not change very much during this simulation (the energy keep increasing gradually as we use forward Euler method in angular velocity update).
 
